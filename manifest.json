@@ -1,0 +1,7 @@
+{
+    "name": "Show Custom ID",
+    "version": "1.0.0",
+    "description": "Show Custom IDs below message components when hovering over them.",
+    "author": "PikaDude",
+    "license": "MIT"
+}
