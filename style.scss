@@ -3,6 +3,7 @@
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.5);
     line-height: initial;
+    overflow-wrap: anywhere;
 }
 
 .sci-parent:hover > .sci-hover-label {

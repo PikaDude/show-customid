@@ -8,6 +8,7 @@ const ComponentHoverParent = require('./components/ComponentHoverParent');
 module.exports = class extends Plugin {
   startPlugin () {
     this.components = [ 'ButtonActionComponent', 'SelectActionComponent', 'TextActionComponent', 'FormSection' ]; // i'd put this as a field but the powercord eslint config sucks
+    this.selectMenuOptionInjects = [];
 
     this.loadStylesheet('style.scss');
 
@@ -16,6 +17,7 @@ module.exports = class extends Plugin {
 
   pluginWillUnload () {
     this.components.forEach(componentName => uninject(this.injectionID(componentName)));
+    this.selectMenuOptionInjects.forEach(e => uninject(e));
   }
 
   injectionID (name) {
@@ -39,6 +41,15 @@ module.exports = class extends Plugin {
           customID: componentName === 'FormSection' ? `Modal Custom ID: ${res.props.children.props.modal.customId}` : customId
         });
         return res;
+      }
+
+      if (componentName === 'SelectActionComponent') {
+        inject(`ssTest${this.selectMenuOptionInjects.length}`, res.props.children[0].props.children[0].props, 'renderOptionLabel', ([ { value } ], res) => React.createElement(ComponentParent, {
+          component: res,
+          customID: value,
+          componentName
+        }));
+        this.selectMenuOptionInjects.push(`ssTest${this.selectMenuOptionInjects.length}`);
       }
 
       return React.createElement(ComponentHoverParent, {
