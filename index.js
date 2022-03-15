@@ -8,7 +8,7 @@ const ComponentHoverParent = require('./components/ComponentHoverParent');
 module.exports = class extends Plugin {
   startPlugin () {
     this.components = [ 'ButtonActionComponent', 'SelectActionComponent', 'TextActionComponent', 'FormSection' ]; // i'd put this as a field but the powercord eslint config sucks
-    this.selectMenuOptionInjects = [];
+    this.extraInjects = [];
 
     this.loadStylesheet('style.scss');
 
@@ -17,11 +17,15 @@ module.exports = class extends Plugin {
 
   pluginWillUnload () {
     this.components.forEach(componentName => uninject(this.injectionID(componentName)));
-    this.selectMenuOptionInjects.forEach(e => uninject(e));
+    this.extraInjects.forEach(id => uninject(id));
   }
 
   injectionID (name) {
     return `sci${name}`;
+  }
+
+  extraInjectionID (num) {
+    return `${this.injectionID('Extra')}-${num}`;
   }
 
   findModule (name) {
@@ -44,12 +48,12 @@ module.exports = class extends Plugin {
       }
 
       if (componentName === 'SelectActionComponent') {
-        inject(`ssTest${this.selectMenuOptionInjects.length}`, res.props.children[0].props.children[0].props, 'renderOptionLabel', ([ { value } ], res) => React.createElement(ComponentParent, {
+        inject(this.extraInjectionID(this.extraInjects.length), res.props.children[0].props.children[0].props, 'renderOptionLabel', ([ { value } ], res) => React.createElement(ComponentParent, {
           component: res,
           customID: value,
           componentName
         }));
-        this.selectMenuOptionInjects.push(`ssTest${this.selectMenuOptionInjects.length}`);
+        this.extraInjects.push(this.extraInjectionID(this.extraInjects.length));
       }
 
       return React.createElement(ComponentHoverParent, {
