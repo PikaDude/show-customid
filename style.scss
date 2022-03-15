@@ -1,11 +1,15 @@
-.sci-action-button-parent:hover > .sci-action-button-label {
+.sci-label {
+    color: white;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    line-height: initial;
+}
+
+.sci-parent:hover > .sci-hover-label {
     display: unset;
 }
 
-.sci-action-button-label {
-    color: white;
+.sci-hover-label {
     display: none;
     position: absolute;
-    z-index: 1;
-    background-color: rgba(0, 0, 0, 0.5);
 }

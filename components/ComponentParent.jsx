@@ -1,7 +1,7 @@
 const { React } = require('powercord/webpack');
 
-module.exports = ({ component, customID, componentName }) =>
-  <div className="sci-action-button-parent" style={{ width: componentName === 'SelectActionComponent' ? '100%' : null }}>
+module.exports = ({ component, customID }) =>
+  <div className="sci-parent">
     {component}
-    <span className="sci-action-button-label">{customID}</span>
+    <span className="sci-label">{customID}</span>
   </div>;
